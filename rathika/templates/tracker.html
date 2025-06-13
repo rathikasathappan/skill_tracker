@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View and track your skill progress with the Skill Development Tracker Dashboard.">
+    <title>Dashboard - Skill Development Tracker</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for Progress Visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f7fa;
+        }
+
+        .navbar {
+            background: linear-gradient(to right, #1e3a8a, #3b82f6);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .navbar .logo {
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .navbar .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .navbar .nav-links li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .nav-links li a:hover {
+            color: #facc15;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1516321318427-f06f85e84b91?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            padding: 8rem 2rem;
+            text-align: center;
+            margin-top: 60px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero .cta-button {
+            background: linear-gradient(to right, #ef4444, #f97316);
+            color: #fff;
+            padding: 0.8rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0 0.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hero .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero .cta-button.secondary {
+            background: transparent;
+            border: 2px solid #fff;
+        }
+
+        .hero .cta-button.secondary:hover {
+            background: #fff;
+            color: #1e3a8a;
+        }
+
+        .dashboard-section {
+            max-width: 1300px;
+            margin: 2rem auto;
+            padding: 2rem;
+            animation: fadeInUp 1s ease-in;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .grid-item {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .grid-item i {
+            font-size: 2.5rem;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+        }
+
+        .grid-item h3 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .grid-item p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        .grid-item .cta-button {
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+            color: #fff;
+            padding: 0.6rem 1.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .grid-item .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+       Ｐロgress-bar {
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            height: 20px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+            height: 100%;
+            transition: width 0.5s ease-in-out;
+        }
+
+        .activity-log {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .activity-log h3 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #3b82f6;
+        }
+
+        .activity-log ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .activity-log li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .activity-log li:last-child {
+            border-bottom: none;
+        }
+
+        .error-message {
+            color: #ef4444;
+            text-align: center;
+            font-size: 1.1rem;
+            margin: 1rem 0;
+            background-color: #fee2e2;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .footer {
+            background: linear-gradient(to right, #1e3a8a, #3b82f6);
+            color: #fff;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        .bottom {
+            margin: 2rem auto;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 2rem;
+            align-items: flex-start;
+            font-size: 0.95rem;
+            max-width: 1300px;
+        }
+
+        .bottom .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .bottom .nav-links li a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .bottom .nav-links li a:hover {
+            color: #3b82f6;
+        }
+
+        .bottom p {
+            max-width: 300px;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .navbar .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero .cta-button {
+                display: inline-block;
+                margin: 0.5rem 0;
+            }
+
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+
+            .bottom {
+                text-align: center;
+                align-items: center;
+            }
+
+            .bottom .nav-links {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .bottom p {
+                text-align: center;
+            }
+
+            .progress-chart-container {
+                max-height: 250px;
+                overflow: hidden;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="rathi.html" class="logo">Skill Development Tracker</a>
+            <ul class="nav-links">
+                <li><a href="{{url_for('home_page')}}">Home</a></li>
+                <li><a href="{{url_for('dashboard_page')}}">Dashboard</a></li>
+                <li><a href="{{url_for('skills_page')}}">Skills</a></li>
+                <li><a href="{{url_for('login_page')}}">login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Welcome to Your Dashboard, <span id="user-name">User</span>!</h1>
+        <p>Track your progress, view recent activity, and set new goals to unlock your potential.</p>
+        <a href="#progress" class="cta-button">View Progress</a>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="progress" class="dashboard-section">
+        <h2 style="font-size: 2rem; font-weight: 600; color: #3b82f6; text-align: center; margin-bottom: 2rem;">Your Skill Progress</h2>
+        <div id="error-message" class="error-message" style="display: none;"></div>
+        <div class="grid-container">
+            <div class="grid-item">
+                <i class="fas fa-code"></i>
+                <h3>Technical Skills</h3>
+                <p>Progress: <span id="technical-progress">Loading...</span></p>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" style="width: 0%;" aria-label="Technical Skills Progress: Loading"></div>
+                </div>
+            
+            </div>
+            <div class="grid-item">
+                <i class="fas fa-comments"></i>
+                <h3>Soft Skills</h3>
+                <p>Progress: <span id="soft-progress">Loading...</span></p>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" style="width: 0%;" aria-label="Soft Skills Progress: Loading"></div>
+                </div>
+            
+        
+            </div>
+            <div class="grid-item">
+                <i class="fas fa-briefcase"></i>
+                <h3>Professional Skills</h3>
+                <p>Progress: <span id="professional-progress">Loading...</span></p>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" style="width: 0%;" aria-label="Professional Skills Progress: Loading"></div>
+            
+        </div>
+            </div>
+
+        <!-- Activity Log -->
+        <div class="activity-log">
+            <h3>Recent Activity</h3>
+            <ul id="activity-list">
+                <li>Loading activities...</li>
+            </ul>
+        </div>
+
+        <!-- Progress Chart -->
+        <div class="activity-log progress-chart-container" style="margin-top: 2rem;">
+            <h3>Weekly Progress</h3>
+            <canvas id="progress-chart" style="max-width: 100%;"></canvas>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom">
+        <ul class="nav-links">
+            <li><a href="{{url_for('home_page')}}">Home</a></li>
+            <li><a href="{{url_for('about_page')}}">About Us</a></li>
+            <li><a href="{{url_for('learn_page')}}">FAQ</a></li>
+            <li><a href="{{url_for('contact_form')}}">Contact Us</a></li>
+            <li><a href="{{url_for('login_page')}}">Login</a></li>
+        </ul>
+        <p>
+            <strong>Business Hours</strong><br>
+            Our support is available<br>
+            Email: info@skills-tracker.com<br><br>
+            Monday–Friday: Open<br>
+            Saturday: Closed<br>
+            Sunday: Closed
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 Skill Development Tracker. All rights reserved.</p>
+        <a href="contact.html">Contact Us</a>
+    </footer>
+
+    <!-- JavaScript for Dynamic Content and Chart -->
+    <script>
+        // Sanitize input to prevent XSS
+        function sanitizeInput(input) {
+            const div = document.createElement('div');
+            div.textContent = input;
+            return div.innerHTML;
+        }
+
+        // Set user name (replace with real authentication)
+        const userName = sanitizeInput("User"); // Replace with actual user data from authentication
+        document.getElementById('user-name').textContent = userName;
+
+        // User ID (replace with actual user ID from authentication)
+        // TODO: Fetch userId dynamically from authentication system (e.g., session, token)
+        const userId = 1; // Hardcoded for testing
+
+        // Initialize Chart.js
+        function initializeChart(labels, technicalData, softData, professionalData) {
+            const ctx = document.getElementById('progress-chart').getContext('2d');
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Technical Skills',
+                            data: technicalData,
+                            borderColor: '#3b82f6',
+                            fill: false
+                        },
+                        {
+                            label: 'Soft Skills',
+                            data: softData,
+                            borderColor: '#ef4444',
+                            fill: false
+                        },
+                        {
+                            label: 'Professional Skills',
+                            data: professionalData,
+                            borderColor: '#f97316',
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Progress (%)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Weekly Skill Progress'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Fetch and update activity log
+        async function loadActivity() {
+            const activityList = document.getElementById('activity-list');
+            try {
+                const response = await fetch(`http://localhost:5000/api/activities/${userId}`);
+                if (!response.ok) throw new Error('Failed to fetch activity data');
+                const activities = await response.json();
+                activityList.innerHTML = '';
+                if (activities.length === 0) {
+                    activityList.innerHTML = '<li>No recent activities found.</li>';
+                } else {
+                    activities.forEach(activity => {
+                        const li = document.createElement('li');
+                        li.textContent = `${activity.date}: ${activity.description}`;
+                        activityList.appendChild(li);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading activities:', error);
+                activityList.innerHTML = '<li>Failed to load activities. Please try again later.</li>';
+            }
+        }
+
+        // Fetch and update progress data
+        async function loadProgress() {
+            const errorMessage = document.getElementById('error-message');
+            try {
+                const response = await fetch(`http://localhost:5000/api/progress/${userId}`);
+                if (!response.ok) throw new Error(`Failed to fetch progress data: ${response.statusText}`);
+                const { progress_data, weekly_data } = await response.json();
+
+                // Update progress bars
+                document.getElementById('technical-progress').textContent = `${Math.round(progress_data.technical)}%`;
+                document.getElementById('soft-progress').textContent = `${Math.round(progress_data.soft)}%`;
+                document.getElementById('professional-progress').textContent = `${Math.round(progress_data.professional)}%`;
+                document.querySelectorAll('.progress-bar-fill')[0].style.width = `${progress_data.technical}%`;
+                document.querySelectorAll('.progress-bar-fill')[0].setAttribute('aria-label', `Technical Skills Progress: ${Math.round(progress_data.technical)}%`);
+                document.querySelectorAll('.progress-bar-fill')[1].style.width = `${progress_data.soft}%`;
+                document.querySelectorAll('.progress-bar-fill')[1].setAttribute('aria-label', `Soft Skills Progress: ${Math.round(progress_data.soft)}%`);
+                document.querySelectorAll('.progress-bar-fill')[2].style.width = `${progress_data.professional}%`;
+                document.querySelectorAll('.progress-bar-fill')[2].setAttribute('aria-label', `Professional Skills Progress: ${Math.round(progress_data.professional)}%`);
+
+                // Initialize chart with fetched data
+                initializeChart(
+                    weekly_data.weeks,
+                    weekly_data.technical,
+                    weekly_data.soft,
+                    weekly_data.professional
+                );
+
+                // Fetch recent activity
+                await loadActivity();
+            } catch (error) {
+                console.error('Error loading progress:', error);
+                errorMessage.textContent = `Failed to load progress data: ${error.message}. Using fallback data.`;
+                errorMessage.style.display = 'block';
+
+                // Fallback data
+                const progressData = { technical: 50, soft: 70, professional: 60 };
+                document.getElementById('technical-progress').textContent = `${progressData.technical}%`;
+                document.getElementById('soft-progress').textContent = `${progressData.soft}%`;
+                document.getElementById('professional-progress').textContent = `${progressData.professional}%`;
+                document.querySelectorAll('.progress-bar-fill')[0].style.width = `${progressData.technical}%`;
+                document.querySelectorAll('.progress-bar-fill')[0].setAttribute('aria-label', `Technical Skills Progress: ${progressData.technical}%`);
+                document.querySelectorAll('.progress-bar-fill')[1].style.width = `${progressData.soft}%`;
+                document.querySelectorAll('.progress-bar-fill')[1].setAttribute('aria-label', `Soft Skills Progress: ${progressData.soft}%`);
+                document.querySelectorAll('.progress-bar-fill')[2].style.width = `${progressData.professional}%`;
+                document.querySelectorAll('.progress-bar-fill')[2].setAttribute('aria-label', `Professional Skills Progress: ${progressData.professional}%`);
+
+                // Initialize chart with fallback data
+                initializeChart(
+                    ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                    [20, 30, 45, 50],
+                    [30, 50, 60, 70],
+                    [25, 40, 55, 60]
+                );
+
+                // Load fallback activity
+                await loadActivity();
+            }
+        }
+
+        // Load data when the page loads
+        document.addEventListener('DOMContentLoaded', loadProgress);
+    </script>
+</body>
+</html>

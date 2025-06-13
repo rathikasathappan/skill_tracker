@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us - Skills-Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+      color: #2d3748;
+      line-height: 1.7;
+      background-image: url(static/67571716-about-us-icon-blue-website-button-on-white-background.jpg);
+    }
+    
+    .navbar {
+      background: linear-gradient(90deg, #1e40af, #3b82f6);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      padding: 1.25rem 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+    
+    .nav-link {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background-color: #facc15;
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    .section-card {
+      opacity: 0.9;
+      background: white;
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .section-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .benefit-item, .user-item {
+      position: relative;
+      padding-left: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .benefit-item::before, .user-item::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #3b82f6;
+      font-weight: 600;
+    }
+    
+    .highlight {
+      background: linear-gradient(180deg, rgba(250, 204, 21, 0.2) 0%, rgba(250, 204, 21, 0) 100%);
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+    }
+    
+    footer {
+      background: #1e40af;
+      color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-top: 3rem;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .animate-in {
+      animation: fadeIn 0.6s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Modal Styles (Adapted from home.html) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
+      animation: fadeInUp 0.3s ease-in;
+    }
+
+    .modal-content h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1e40af;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .modal-content form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .modal-content input {
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      background-color: #f9fafb;
+    }
+
+    .modal-content input:focus {
+      border-color: #3b82f6;
+      outline: none;
+      box-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
+    }
+
+    .modal-content button {
+      background: linear-gradient(to right, #3b82f6, #60a5fa);
+      color: #fff;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .modal-content button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-content .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      color: #555;
+      cursor: pointer;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <a href="#" class="logo text-white text-2xl md:text-3xl font-bold flex items-center">
+        <span class="text-yellow-400 mr-2">✦</span> Skills-Tracker
+      </a>
+      <ul class="nav-links flex gap-6 md:gap-8">
+        <li><a href="{{url_for('home_page')}}" class="nav-link text-white hover:text-yellow-400">Home</a></li>
+        <li><a href="{{url_for('skills_page')}}" class="nav-link text-white hover:text-yellow-400">Skills</a></li>
+        <li><a href="{{url_for('login_page')}}" class="nav-link text-white hover:text-yellow-400">Track Skill</a></li>
+        <li><a href="#" class="nav-link text-white hover:text-yellow-400" onclick="openModal('setGoalModal')">Set Goal</a></li>
+        <li><a href="#" class="nav-link text-white hover:text-yellow-400" onclick="openModal('dashboardModal')">Go to Dashboard</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Set Goal Modal -->
+  <div id="setGoalModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('setGoalModal')">×</span>
+      <h3>Access Set Goal</h3>
+      <form method="get" action="{{url_for('set_goal')}}">
+        <input type="email" name="email" placeholder="Enter your email to set a goal" required>
+        <button type="submit">Proceed</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard Modal -->
+  <div id="dashboardModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('dashboardModal')">×</span>
+      <h3>Access Dashboard</h3>
+      <form method="get" action="{{url_for('dashboard')}}">
+        <input type="email" name="email" placeholder="Enter your email to view your dashboard" required>
+        <button type="submit">Proceed</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <section class="mt-32 mb-12 px-4">
+    <div class="section-card animate-in max-w-5xl mx-auto">
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6 text-center">About <span class="highlight">Skills-Tracker</span></h1>
+      <p class="text-lg text-gray-600 mb-4">
+        Established in 1992, <strong class="text-gray-800">Skills-Tracker</strong> pioneered the concept of detailed work experience tracking for apprentices and trainees. Our comprehensive suite of tools provides a <span class="highlight">centralized online platform</span> for recording on-the-job experience with ease and precision.
+      </p>
+      <p class="text-lg text-gray-600 mb-6">
+        We bridge the gap between trainees, training organizations, and employers to deliver the best training outcomes. Skills-Tracker consolidates weekly work entries and offers insightful reporting to assess progress. Our <span class="highlight">flexible solution</span> adapts to your unique requirements.
+      </p>
+
+      <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">How Does It Work?</h2>
+      <p class="text-lg text-gray-600">
+        Skills-Tracker streamlines documentation and verification, seamlessly linking theoretical training with practical job skills. Supervisors can validate entries, while training organizations generate detailed reports to monitor progress effectively.
+      </p>
+
+      <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">What Are the Benefits?</h2>
+      <ul class="text-lg text-gray-600">
+        <li class="benefit-item">Versatile: Usable for any trade, traineeship, or qualification</li>
+        <li class="benefit-item">Customizable: Tailored to your specific needs</li>
+        <li class="benefit-item">Verified: Permanent record for OH&S and compliance tracking</li>
+        <li class="benefit-item">Bridging: Connects theory with on-the-job experience</li>
+        <li class="benefit-item">Efficient: Boosts training delivery efficiency</li>
+        <li class="benefit-item">Strategic: Serves as a talent development management tool</li>
+        <li class="benefit-item">Focused: Ensures employees gain the right experience</li>
+        <li class="benefit-item">Insightful: Reporting highlights focus areas and shop floor targets</li>
+      </ul>
+
+      <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">Who Can Use Skills-Tracker?</h2>
+      <ul class="text-lg text-gray-600">
+        <li class="user-item">Trainees</li>
+        <li class="user-item">Apprentices</li>
+        <li class="user-item">Post Trade Professionals</li>
+        <li class="user-item">Undergraduates & Graduates</li>
+        <li class="user-item">Supervisors & Managers</li>
+        <li class="user-item">Small, Medium, and Large Companies</li>
+        <li class="user-item">Training Organizations</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p class="text-sm">Last updated: 30 May 2025</p>
+  </footer>
+
+  <!-- JavaScript for Modals -->
+  <script>
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = 'flex';
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
