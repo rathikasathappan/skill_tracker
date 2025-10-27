@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    /* ... (CSS remains the same) ... */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #1e3a8a, #1e40af);
+      color: #f3f4f6;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background: rgba(17, 24, 39, 0.95);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    .navbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .navbar .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #a5b4fc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .navbar .logo:hover {
+      color: #ffffff;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    .nav-links li a {
+      color: #d1d5db;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links li a:hover {
+      color: #a5b4fc;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: #1f2937;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    h1, h2, h3 {
+      color: #a5b4fc;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #2d3748;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+
+    th, td {
+      padding: 1.25rem;
+      text-align: left;
+      border-bottom: 1px solid #4b5563;
+    }
+
+    thead {
+      background: linear-gradient(to right, #4f46e5, #7c3aed);
+      color: #ffffff;
+    }
+
+    th {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+    }
+
+    .logout-button {
+      display: inline-block;
+      background: linear-gradient(to right, #ef4444, #f87171);
+      color: #fff;
+      padding: 0.75rem 2rem;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .logout-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+    }
+
+    .email-search, .progress-search {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      align-items: center;
+    }
+    
+    /* New style to ensure action buttons are grouped on one line */
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    input, select {
+      padding: 0.75rem 1rem;
+      background: #374151;
+      color: #fff;
+      border: 1px solid #6b7280;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #a5b4fc;
+      box-shadow: 0 0 0 3px rgba(165, 180, 252, 0.2);
+    }
+
+    button {
+      background: linear-gradient(to right, #4f46e5, #7c3aed);
+      color: white;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+    }
+
+    .delete-button {
+      background: linear-gradient(to right, #ef4444, #f87171);
+      padding: 0.5rem 1.5rem;
+      border-radius: 30px;
+    }
+
+    .delete-button:hover {
+      background: linear-gradient(to right, #b91c1c, #dc2626);
+      transform: translateY(-2px);
+    }
+    
+    .quiz-button {
+      background: linear-gradient(to right, #10b981, #059669); /* Tailwind Emerald colors */
+      padding: 0.5rem 1.5rem;
+      border-radius: 30px;
+      text-decoration: none; /* since it's an <a> tag */
+      color: white;
+      font-weight: 600;
+    }
+    
+    .quiz-button:hover {
+      background: linear-gradient(to right, #059669, #047857);
+      transform: translateY(-2px);
+    }
+
+    .flash-message {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .flash-success {
+      background: #16a34a;
+      color: white;
+    }
+
+    .flash-danger {
+      background: #ef4444;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .navbar .container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .container {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+
+      .email-search, .progress-search {
+        flex-direction: column;
+      }
+
+      input, select, button {
+        width: 100%;
+      }
+      
+      .action-buttons {
+          flex-direction: column;
+          align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="#" class="logo">Skill Development Tracker</a>
+      <ul class="nav-links">
+        <li><a href="{{url_for('home_page')}}">Home</a></li>
+        <li><a href="{{url_for('skills_page')}}">Skills</a></li>
+        <li><a href="{{ url_for('admin.admin') }}">Admin</a></li>
+        <li><a href="{{ url_for('set_goal') }}">Set Goal</a></li>
+        {% if email %}
+          <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+          <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+          <li><a href="{{ url_for('login') }}">Login</a></li>
+          <li><a href="{{ url_for('login') }}">Dashboard</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>Admin Dashboard</h1>
+    <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash-message flash-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    
+    <h3>Upload Learning Material</h3>
+    <form action="{{ url_for('upload_material') }}" method="POST" enctype="multipart/form-data" class="email-search">
+      <input type="text" name="title" placeholder="Title" required>
+      
+      <select name="skill_type" required>
+        <option value="">Select Skill Type</option>
+        <option value="Technical">Technical</option>
+        <option value="Soft Skill">Soft Skill</option>
+        <option value="Professional">Professional</option>
+      </select>
+
+      <input type="text" name="sub_skill" placeholder="Sub Skill (e.g. Programming)" required>
+
+      <input type="text" name="author_name" placeholder="Author / Instructor Name" required>
+
+      <input type="file" name="material_file" accept=".mp4,.pdf" required>
+      <button type="submit">Upload</button>
+    </form>
+    
+    <h2>Uploaded Learning Materials</h2>
+    {% if materials %}
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Author / Instructor</th>
+          <th>Skill Type</th>
+          <th>File Type</th>
+          <th>Duration (hrs)</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for material in materials %}
+        <tr>
+          <td>{{ material.id }}</td>
+          <td>{{ material.title }}</td>
+          <td>{{ material.author_name }}</td>
+          <td>{{ material.skill_type }}</td>
+          <td>{{ material.filetype }}</td>
+          <td>{{ material.duration }}</td>
+          <td>
+            <div class="action-buttons">
+              <a href="{{ url_for('manage_quiz', material_id=material.id) }}" class="quiz-button">
+                <i class="fas fa-question-circle"></i> Quiz
+              </a>
+              
+              <form method="POST" action="{{ url_for('delete_material', material_id=material.id) }}"
+                onsubmit="return confirm('Are you sure you want to delete this material?');" style="display:inline;">
+                <button type="submit" class="delete-button">
+                    <i class="fas fa-trash-alt"></i> Delete
+                </button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>No learning materials uploaded yet.</p>
+    {% endif %}
+
+    <hr style="border: 1px solid #4b5563; margin: 2rem 0;">
+
+    <h2>Search and Filter Users by Progress</h2>
+    <form action="{{ url_for('search_progress') }}" method="GET" class="progress-search">
+      
+      <input type="text" name="material_id" placeholder="Material ID (Optional)" 
+             value="{{ search_material_id if search_material_id else '' }}">
+             
+      <input type="text" name="author_name" placeholder="Author Name (Optional)" 
+             value="{{ search_author_name if search_author_name else '' }}">
+      
+      <select name="skill_type">
+        <option value="">All Skills</option>
+        <option value="Technical" {{ 'selected' if search_skill == 'Technical' else '' }}>Technical</option>
+        <option value="Soft Skill" {{ 'selected' if search_skill == 'Soft Skill' else '' }}>Soft Skill</option>
+        <option value="Professional" {{ 'selected' if search_skill == 'Professional' else '' }}>Professional</option>
+      </select>
+      
+      <input type="text" name="sub_skill" placeholder="Sub Skill (e.g. Programming)" 
+             value="{{ search_sub_skill if search_sub_skill else '' }}">
+             
+      <input type="number" name="progress_level" placeholder="Min Progress (%)" min="0" max="100" step="1" 
+             value="{{ search_progress if search_progress else '' }}">
+             
+      <button type="submit">
+          <i class="fas fa-search"></i> Search
+      </button>
+    </form>
+
+    {% if progress_users %}
+    <h3>Users Matching Filter ({{ progress_users|length }} found)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Material ID</th>
+          <th>Skill Type</th>
+          <th>Sub Skill</th>
+          <th>Progress (%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in progress_users %}
+        <tr>
+          <td>{{ user.email }}</td>
+          <td>{{ user.material_id }}</td>
+          <td>{{ user.skill_type }}</td>
+          <td>{{ user.sub_skill }}</td>
+          <td>{{ '%.2f' % user.progress_percentage }}%</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% elif search_skill or search_sub_skill or search_progress or search_material_id or search_author_name %}
+    <p>No users found with the specified criteria.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

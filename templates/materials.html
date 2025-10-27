@@ -1,0 +1,34 @@
+<!-- templates/materials.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Learning Materials</title>
+</head>
+<body>
+  <h1>Learning Materials for {{ email }}</h1>
+
+  {% if materials %}
+    <ul>
+    {% for material in materials %}
+      <li>
+        <h3>{{ material[1] }} ({{ material[2] }})</h3> <!-- Title and Skill Type -->
+
+        {% if material[4] == 'mp4' %}
+          <!-- Display video -->
+          <video width="500" controls>
+            <source src="{{ url_for('static', filename='uploads/' ~ material[3]) }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        {% elif material[4] == 'pdf' %}
+          <!-- Link to PDF -->
+          <a href="{{ url_for('static', filename='uploads/' ~ material[3]) }}" target="_blank">View PDF</a>
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p>No materials available.</p>
+  {% endif %}
+</body>
+</html>

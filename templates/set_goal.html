@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Set Goal - Skill Development Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { line-height: 1.6; color: #333; }
+    .navbar { background: linear-gradient(to right, #1e3a8a, #3b82f6); padding: 1rem; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
+    .navbar .container { display: flex; justify-content: space-between; align-items: center; max-width: 1300px; margin: 0 auto; }
+    .navbar .logo { color: #fff; font-size: 1.8rem; font-weight: 600; text-decoration: none; }
+    .navbar .nav-links { list-style: none; display: flex; gap: 1.5rem; align-items: center; }
+    .navbar .nav-links li a { color: #fff; text-decoration: none; font-size: 1.1rem; font-weight: 400; transition: color 0.3s ease; }
+    .navbar .nav-links li a:hover { color: #facc15; }
+    .navbar .nav-links li a.nav-button { background: linear-gradient(to right, #3b82f6, #60a5fa); padding: 0.5rem 1rem; border-radius: 50px; font-weight: 600; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .navbar .nav-links li a.nav-button:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); color: #fff; }
+    .navbar .nav-links li a.nav-button.secondary { background: linear-gradient(to right, #10b981, #34d399); }
+    .footer { background: linear-gradient(to right, #1e3a8a, #3b82f6); color: #fff; text-align: center; padding: 2rem; font-size: 0.9rem; font-weight: 300; }
+    .bottom { background-color: #000; color: #fff; display: flex; justify-content: space-between; flex-wrap: wrap; padding: 2rem; font-size: 0.95rem; }
+    .bottom .nav-links { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+    .bottom .nav-links li a { color: #fff; text-decoration: none; transition: color 0.3s ease; }
+    .bottom .nav-links li a:hover { color: #3b82f6; }
+    @media (max-width: 768px) {
+      .navbar .nav-links { flex-direction: column; gap: 1rem; }
+      .main-content { margin-top: 120px; }
+      .bottom { flex-direction: column; text-align: center; }
+      .bottom .nav-links { flex-direction: row; justify-content: center; gap: 1rem; margin-bottom: 1.5rem; }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-green-100 via-blue-100 to-purple-100">
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="container">
+      <a href="{{url_for('home_page')}}" class="logo">Skill Development Tracker</a>
+      <ul class="nav-links">
+        <li><a href="{{url_for('home_page')}}">Home</a></li>
+        <li><a href="{{url_for('skills_page')}}">Skills</a></li>
+        <li><a href="{{ url_for('admin.admin') }}">Admin</a></li>
+        <li><a href="{{ url_for('set_goal') }}">Set Goal</a></li>
+      {% if session.email %}
+  <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+  <li><a href="{{ url_for('logout') }}">Logout</a></li>
+{% else %}
+  <li><a href="{{ url_for('login') }}">Login</a></li>
+  <li><a href="{{ url_for('login') }}">Dashboard</a></li>
+{% endif %}
+
+      </ul>
+    </div>
+  </nav>
+
+<!-- Main Content -->
+<div class="main-content p-6 min-h-screen flex justify-center items-start">
+  <div class="w-full max-w-2xl bg-white rounded shadow-md p-6 overflow-y-auto">
+
+    <h1 class="text-2xl font-bold text-indigo-700 mb-4">🎯 Set Goal for a Video</h1>
+
+    {% if email %}
+    <div class="bg-green-100 text-green-800 p-3 rounded mb-4">
+      <i class="fa fa-envelope"></i> Setting goals for: <strong>{{ email }}</strong>
+    </div>
+    {% endif %}
+
+    <form method="POST" action="{{ url_for('set_goal') }}" class="space-y-4">
+      <input type="hidden" name="email" value="{{ email }}">
+
+    <div>
+  <label for="material_id" class="block font-medium">🎬 Choose Video:</label>
+  <select name="material_id" class="w-full border border-gray-300 p-2 rounded" required>
+    {% for video in videos %}
+      <option value="{{ video.id }}">{{ video.title }} ({{ video.duration }} mins)</option>
+    {% endfor %}
+  </select>
+</div>
+
+      <div>
+        <label class="block font-medium">Goal Title:</label>
+        <input type="text" name="title" class="w-full border p-2 rounded" required>
+      </div>
+
+      <div>
+        <label class="block font-medium">Description:</label>
+        <textarea name="description" class="w-full border p-2 rounded" required></textarea>
+      </div>
+
+      <div>
+        <label class="block font-medium">Target Date:</label>
+        <input type="date" name="target_date" class="w-full border p-2 rounded" required>
+      </div>
+
+      <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Set Goal</button>
+    </form>
+
+    <h2 class="text-xl font-semibold text-gray-800 mt-8 mb-2">🎥 Your Video Goals</h2>
+    {% for goal in goals %}
+      <div class="bg-gray-100 p-4 rounded shadow mb-3">
+        <strong>{{ goal.title }}</strong> — <span class="text-sm text-gray-600">({{ goal.material_title }})</span><br>
+        <p>{{ goal.description }}</p>
+        <p class="text-sm text-gray-600">Due: {{ goal.target_date }} | Created: {{ goal.created_at }}</p>
+        <p class="text-sm text-blue-600">Progress:
+          {% if goal.watched_duration %}
+            {{ goal.watched_duration }} / {{ goal.video_duration }} minutes
+          {% else %}
+            0 / {{ goal.video_duration }} minutes
+          {% endif %}
+        </p>
+        <form method="POST" action="{{ url_for('update_goal', goal_id=goal.id) }}">
+          <label>Status:</label>
+          <td>{{ goal.status }}</td>
+{% if goal.status == 'Pending' %}
+  <span class="badge bg-warning">Pending</span>
+{% elif goal.status == 'Achieved' %}
+  <span class="badge bg-success">Achieved</span>
+{% elif goal.status == 'Missed' %}
+  <span class="badge bg-danger">Missed</span>
+{% endif %}
+
+          <button class="bg-blue-500 text-white px-3 py-1 ml-2 rounded">Update</button>
+        </form>
+      </div>
+    {% else %}
+      <p class="text-gray-500">No goals set yet.</p>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="bottom">
+  <ul class="nav-links">
+    <li><a href="{{ url_for('home_page') }}">Home</a></li>
+    <li><a href="{{ url_for('about_page') }}">About Us</a></li>
+    <li><a href="{{ url_for('learn_page') }}">FAQ</a></li>
+    <li><a href="{{ url_for('contact_page') }}">Contact Us</a></li>
+    <li><a href="{{ url_for('login') }}">Login</a></li>
+  </ul>
+  <p>
+    <strong>Business Hours</strong><br>
+    Email: info@skills-tracker.com<br>
+    Mon–Fri: Open<br>
+    Sat–Sun: Closed
+  </p>
+</div>
+
+<footer class="footer">
+  <p>© 2025 Skill Development Tracker. All rights reserved.</p>
+  <a href="{{ url_for('terms_page') }}">Terms & Conditions</a> |
+  <a href="{{ url_for('privacy_page') }}">Privacy & Policy</a>
+</footer>
+
+</body>
+</html>

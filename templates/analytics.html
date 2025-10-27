@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skill Analytics</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-image: url('static/images.jpeg');
+      background-color: #f4f7fa;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2 {
+      color: silver;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-align: center;
+    }
+
+    h3 {
+      color: goldenrod;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .section {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 30px;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .chart-wrapper {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      width: 100%;
+      padding: 20px;
+    }
+
+    .chart-box {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      width: 100%;
+      height: 320px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .chart-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .chart-box canvas {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .no-data {
+      text-align: center;
+      color: #7f8c8d;
+      font-size: 1rem;
+      font-style: italic;
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    .back-btn {
+      display: inline-block;
+      padding: 0.6rem 1.5rem;
+      background: linear-gradient(to right, #14b8a6, #2dd4bf);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 50px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(20, 184, 166, 0.3);
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f4f7fa;
+    }
+
+    @media (max-width: 768px) {
+      h2 { font-size: 2rem; }
+      h3 { font-size: 1.25rem; }
+      .chart-wrapper { grid-template-columns: 1fr; gap: 20px; }
+      .chart-box { height: 280px; }
+    }
+  </style>
+</head>
+<body>
+  <h2>Skill Analytics</h2>
+
+  <div class="section">
+    <h3>Login Duration</h3>
+    <p>Total Login Time: {{ login_hours }} hours</p>
+  </div>
+
+  <div class="section">
+    <h3>Recent Skill Activity</h3>
+    {% if recent_activity %}
+      <table>
+        <thead>
+          <tr>
+            <th>Skill</th>
+            <th>Hours Logged</th>
+            <th>Last Updated</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for activity in recent_activity %}
+          <tr>
+            <td>{{ activity.sub_skill }}</td>
+            <td>{{ activity.hours_logged }}</td>
+            <td>{{ activity.submitted_at.strftime('%Y-%m-%d %H:%M:%S') if activity.submitted_at else 'N/A' }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="no-data">No recent activity found.</p>
+    {% endif %}
+  </div>
+
+  <div class="section">
+    <div class="chart-wrapper">
+      <!-- PIE CHART -->
+      <div>
+        <h3>Skill Progress</h3>
+        {% if skill_summary %}
+          <div class="chart-box">
+            <canvas id="progressChart"></canvas>
+          </div>
+        {% else %}
+          <p class="no-data">No skill progress data available.</p>
+        {% endif %}
+      </div>
+
+      <!-- BAR CHART -->
+      <div>
+        <h3>Weekly Hours</h3>
+        {% if weekly_data %}
+          <div class="chart-box">
+            <canvas id="weeklyChart"></canvas>
+          </div>
+        {% else %}
+          <p class="no-data">No activity logged in the past 7 days.</p>
+        {% endif %}
+      </div>
+    </div>
+    <a href="{{ url_for('dashboard') }}"class="back-btn" id="backButton"><i class="fas fa-arrow-left"></i> Back to dashboard</a>
+  </div>
+
+  <script>
+    const skillSummary = {{ skill_summary | tojson | safe }};
+    const weeklyData = {{ weekly_data | tojson | safe }};
+
+    // PIE CHART
+    if (skillSummary && skillSummary.length > 0) {
+      const progressChart = new Chart(document.getElementById('progressChart'), {
+        type: 'pie',
+        data: {
+          labels: skillSummary.map(row => row.skill_type),
+          datasets: [{
+            label: 'Hours Watched',
+            data: skillSummary.map(row => row.total_hours || 0),
+            backgroundColor: ['#4caf50', '#2196f3', '#ff9800', '#e91e63', '#9c27b0'],
+            borderColor: '#ffffff',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                font: { size: 12 },
+                color: '#34495e'
+              }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              titleColor: '#fff',
+              bodyColor: '#fff'
+            }
+          }
+        }
+      });
+    }
+
+    // BAR CHART
+    if (weeklyData && weeklyData.length > 0) {
+      new Chart(document.getElementById('weeklyChart'), {
+        type: 'bar',
+        data: {
+          labels: weeklyData.map(d => new Date(d.day).toLocaleDateString("en-IN", { day: '2-digit', month: 'short', year: 'numeric' })),
+          datasets: [{
+            label: 'Hours',
+            data: weeklyData.map(d => d.hours || 0),
+            backgroundColor: '#3f51b5',
+            borderColor: '#3f51b5',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              ticks: {
+                maxRotation: 0,
+                minRotation: 0,
+                color: '#34495e'
+              },
+              grid: { display: false }
+            },
+            y: {
+              beginAtZero: true,
+              ticks: { color: '#34495e' },
+              grid: { color: '#ecf0f1' }
+            }
+          },
+          plugins: {
+            legend: {
+              labels: { color: '#34495e' }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              titleColor: '#fff',
+              bodyColor: '#fff'
+            }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>

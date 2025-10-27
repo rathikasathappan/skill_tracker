@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy - Skills-Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #151616e0; /* Fallback color from homepage */
+      color: #2d3748;
+      line-height: 1.7;
+      margin: 0;
+      padding: 0;
+      background-image: url('static/photo-1595666944516-bbb485958fb5.jpg'); /* Background image from homepage */
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Navigation Bar (from homepage, adjusted for visibility) */
+    .navbar {
+      background: linear-gradient(to right, #1e3a8a, #3b82f6) !important;
+      padding: 1rem;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .navbar .logo {
+      color: #ffffff !important;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      opacity: 1;
+      z-index: 1001;
+    }
+
+    .navbar .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar .nav-links li a {
+      color: #ffffff !important;
+      font-family: 'Poppins', sans-serif;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 400;
+      transition: color 0.3s ease;
+      opacity: 1;
+      z-index: 1001;
+    }
+
+    .navbar .nav-links li a:hover {
+      color: #facc15 !important;
+    }
+
+    .navbar .nav-links li a.nav-button {
+      background: linear-gradient(to right, #3b82f6, #60a5fa);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      color: #ffffff !important;
+    }
+
+    .navbar .nav-links li a.nav-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      color: #ffffff !important;
+    }
+
+    .navbar .nav-links li a.nav-button.secondary {
+      background: linear-gradient(to right, #10b981, #34d399);
+    }
+
+    /* Modal Styles (from homepage) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
+      animation: fadeInUp 0.3s ease-in;
+    }
+
+    .modal-content h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1e3a8a;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .modal-content form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .modal-content input {
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      background-color: #f9fafb;
+    }
+
+    .modal-content input:focus {
+      border-color: #3b82f6;
+      outline: none;
+      box-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
+    }
+
+    .modal-content button {
+      background: linear-gradient(to right, #3b82f6, #60a5fa);
+      color: #fff;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .modal-content button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-content .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      color: #555;
+      cursor: pointer;
+    }
+
+    /* Original Privacy Policy Styles */
+    .section-card {
+      opacity: 0.9;
+      background: white;
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .section-title {
+      position: relative;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(to right, #1e40af, #3b82f6);
+      border-radius: 3px;
+    }
+
+    .list-item {
+      position: relative;
+      padding-left: 1.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .list-item::before {
+      content: '➔';
+      position: absolute;
+      left: 0;
+      color: #3b82f6;
+      font-weight: 600;
+    }
+
+    .highlight {
+      background: linear-gradient(180deg, rgba(221, 214, 184, 0.2) 0%, rgba(3, 3, 3, 0) 100%);
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      color: black;
+    }
+
+    footer {
+      background: #1e40af;
+      color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    footer a {
+      color: #facc15;
+      text-decoration: underline;
+    }
+
+    .animate-in {
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navbar .nav-links {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <<nav class="navbar">
+    <div class="container">
+      <a href="{{url_for('home_page')}}" class="logo">Skill Development Tracker</a>
+      <ul class="nav-links">
+        <li><a href="{{url_for('home_page')}}">Home</a></li>
+        <li><a href="{{url_for('skills_page')}}">Skills</a></li>
+        <li><a href="{{ url_for('admin.admin') }}">Admin</a></li>
+        <li><a href="{{ url_for('set_goal') }}">Set Goal</a></li>
+      {% if session.email %}
+  <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+  <li><a href="{{ url_for('logout') }}">Logout</a></li>
+{% else %}
+  <li><a href="{{ url_for('login') }}">Login</a></li>
+  <li><a href="{{ url_for('login') }}">Dashboard</a></li>
+{% endif %}
+
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Set Goal Modal -->
+  <div id="setGoalModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('setGoalModal')">×</span>
+      <h3>Access Set Goal</h3>
+      <form method="get" action="{{url_for('set_goal')}}">
+        <input type="email" name="email" placeholder="Enter your email to set a goal" required>
+        <button type="submit">Proceed</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard Modal -->
+  <div id="dashboardModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('dashboardModal')">×</span>
+      <h3>Access Dashboard</h3>
+      <form method="get" action="{{url_for('dashboard')}}">
+        <input type="email" name="email" placeholder="Enter your email to view your dashboard" required>
+        <button type="submit">Proceed</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Original Privacy Policy Content -->
+  <div class="max-w-5xl mx-auto mt-24 px-4">
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10 text-center animate-in">
+      <span class="highlight" style="color: #010307;">Privacy Policy</span>
+    </h1>
+
+    <section class="section-card animate-in">
+      <h2 class="section-title text-2xl font-semibold text-gray-800">1. Information Security</h2>
+      <p class="text-lg text-gray-600">
+        We take all reasonable steps to protect your information from misuse, loss, unauthorized access, and modification or disclosure. While we strive to protect such information, we cannot guarantee 100% security of any information you transmit to us. We are not liable for any breach of security or unintended loss or disclosure of information due to the Website being linked to the Internet.
+      </p>
+    </section>
+
+    <section class="section-card animate-in">
+      <h2 class="section-title text-2xl font-semibold text-gray-800">2. Purpose of Collecting Personal Information</h2>
+      <p class="text-lg text-gray-600">
+        We collect your <span class="highlight">Personal Information</span> only as necessary to:
+      </p>
+      <ul class="text-lg text-gray-600">
+        <li class="list-item">Provide products and services requested by you;</li>
+        <li class="list-item">Communicate with you regarding services;</li>
+        <li class="list-item">Answer questions and offer advice;</li>
+        <li class="list-item">Create records, invoices, and agreements;</li>
+        <li class="list-item">Engage third parties to support services requested by you;</li>
+        <li class="list-item">Perform marketing, planning, fraud prevention, research and quality control;</li>
+        <li class="list-item">Respond to complaints;</li>
+        <li class="list-item">Comply with legal or regulatory obligations.</li>
+      </ul>
+      <p class="text-lg text-gray-600 mt-4">
+        We use <span class="highlight">Personal Information</span> solely for these purposes and will not disclose it without your consent unless required by law.
+      </p>
+    </section>
+
+    <section class="section-card animate-in">
+      <h2 class="section-title text-2xl font-semibold text-gray-800">3. Aggregated Information</h2>
+      <p class="text-lg text-gray-600">
+        We collect aggregated, anonymous data to understand usage trends and improve our services. This includes browser and traffic pattern data that informs our <span class="highlight">educational and training offerings</span>.
+      </p>
+    </section>
+
+    <section class="section-card animate-in">
+      <h2 class="section-title text-2xl font-semibold text-gray-800">4. Cookies</h2>
+      <p class="text-lg text-gray-600">
+        We use cookies to enhance your experience. The four main types are:
+      </p>
+      <ul class="text-lg text-gray-600">
+        <li class="list-item"><strong>Functionality cookies:</strong> Allow navigation and use of features.</li>
+        <li class="list-item"><strong>Analytics cookies:</strong> Track usage to improve the website.</li>
+        <li class="list-item"><strong>Preference cookies:</strong> Remember user settings like language/location.</li>
+        <li class="list-item"><strong>Advertising cookies:</strong> Show relevant ads and measure campaign effectiveness.</li>
+      </ul>
+      <p class="text-lg text-gray-600 mt-4">
+        By using our site, you consent to cookie usage. You can disable cookies in your browser, though this may limit your <span class="highlight">experience</span>.
+      </p>
+    </section>
+
+    <section class="section-card animate-in">
+      <h2 class="section-title text-2xl font-semibold text-gray-800">5. Access and Correction</h2>
+      <p class="text-lg text-gray-600">
+        Under the <span class="highlight">Privacy Act</span>, you may request access to the Personal Information we hold. You can update it via your account or contact us to remove it by emailing <a href="mailto:info@skills-tracker.com" class="text-blue-500 hover:text-blue-700">info@skills-tracker.com</a>.
+      </p>
+    </section>
+
+    <section class="section-card animate-in">
+      <h2 class="section-title text-2xl font-semibold text-gray-800">6. Complaints</h2>
+      <p class="text-lg text-gray-600">
+        If you have questions, concerns, or complaints about our <span class="highlight">Privacy Policy</span>, contact us at <a href="mailto:info@skills-tracker.com" class="text-blue-500 hover:text-blue-700">info@skills-tracker.com</a>. For further details, visit the Office of the Australian Information Commissioner at <a href="https://www.oaic.gov.au" target="_blank" class="text-blue-500 hover:text-blue-700">www.oaic.gov.au</a>.
+      </p>
+    </section>
+
+    <section class="section-card animate-in">
+      <h2 class="section-title text-2xl font-semibold text-gray-800">7. Third-Party Sites</h2>
+      <p class="text-lg text-gray-600">
+        Our website may link to external sites. We are not responsible for their <span class="highlight">privacy practices</span>. Review their privacy policies before sharing your information.
+      </p>
+    </section>
+
+    <section class="section-card animate-in">
+      <h2 class="section-title text-2xl font-semibold text-gray-800">8. Changes to this Policy</h2>
+      <p class="text-lg text-gray-600">
+        This <span class="highlight">Privacy Policy</span> forms part of our Terms and Conditions. We may update it periodically. Updates take effect immediately when posted. Continued use of the website indicates your acceptance. If you disagree with any changes, discontinue use of our site.
+      </p>
+    </section>
+
+    <footer class="mt-12">
+      <p class="text-sm">Last updated: 29 August 2019</p>
+    </footer>
+  </div>
+
+  <script>
+    // Modal Functions
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = 'flex';
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

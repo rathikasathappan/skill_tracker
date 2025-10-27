@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Additional Notes - Skill Development Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ffffff, #e6fffa); /* White to soft teal gradient */
+      color: #1f2937;
+      min-height: 100vh;
+      padding-top: 80px;
+      background-image: url(static/book.jpg);
+    }
+
+    .navbar {
+      background: rgba(17, 24, 39, 0.95);
+      padding: 1rem 2rem;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .navbar .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2dd4bf; /* Teal to match theme */
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .navbar .logo:hover {
+      color: #ffffff;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links li a {
+      color: #d1d5db;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links li a:hover {
+      color: #2dd4bf; /* Teal for hover */
+    }
+
+    .notes-container {
+      max-width: 1000px;
+      opacity: 0.8;
+      margin: 2rem auto;
+      background: #170202;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #14b8a6; /* Teal for headings */
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      align-items: center;
+    }
+
+    select, input[type="text"] {
+      padding: 0.75rem 1rem;
+      background: #f1f5f9;
+      color: #1f2937;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    select:focus, input[type="text"]:focus {
+      outline: none;
+      border-color: #14b8a6;
+      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.2);
+    }
+
+    .nav-button {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(to right, #14b8a6, #2dd4bf);
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .nav-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(20, 184, 166, 0.3);
+      background: #0f766e;
+    }
+
+    .nav-button.secondary {
+      background: transparent;
+      border: 2px solid #14b8a6;
+      color: #14b8a6;
+    }
+
+    .nav-button.secondary:hover {
+      background: #14b8a6;
+      color: white;
+    }
+
+    .notes-container .nav-button {
+      display: block;
+      width: fit-content;
+      margin: 2rem auto 0 auto;
+    }
+
+    button {
+      background: linear-gradient(to right, #14b8a6, #2dd4bf);
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(20, 184, 166, 0.3);
+    }
+
+    .pdf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjusted to ensure at least 2 columns */
+      gap: 2rem; /* Increased gap for better spacing */
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    .pdf-card {
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      aspect-ratio: 1 / 1; /* Square shape */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: #1f2937;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pdf-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      background: #e6fffa; /* Light teal on hover */
+    }
+
+    .pdf-card i {
+      font-size: 2rem;
+      color: #14b8a6;
+      margin-bottom: 0.5rem;
+    }
+
+    .pdf-card strong {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      display: block;
+    }
+
+    .pdf-card .author-name {
+      font-size: 0.9rem;
+      color: #4b5563;
+      margin-bottom: 0.25rem;
+    }
+
+    .pdf-card span {
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+
+    .no-results {
+      color: #6b7280;
+      font-style: italic;
+      text-align: center;
+      padding: 2rem;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 768px) {
+      .navbar .container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      form {
+        flex-direction: column;
+      }
+
+      select, input[type="text"], button {
+        width: 100%;
+      }
+
+      .pdf-grid {
+        grid-template-columns: 1fr; /* Single column on mobile */
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="{{url_for('home_page')}}" class="logo">Skill Development Tracker</a>
+      <ul class="nav-links">
+        <li><a href="{{url_for('home_page')}}">Home</a></li>
+        <li><a href="{{url_for('skills_page')}}">Skills</a></li>
+        <li><a href="{{ url_for('admin.admin') }}">Admin</a></li>
+        <li><a href="{{ url_for('set_goal') }}">Set Goal</a></li>
+        {% if email %}
+        <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  <div class="notes-container">
+    <h2><i class="fas fa-book"></i> Additional Notes</h2>
+
+    <form method="get" action="{{ url_for('additional_notes') }}">
+      <!-- Skill Type Filter: Retain selected value -->
+      <select name="skill_type">
+        <option value="" {% if not skill_type %}selected{% endif %}>All Skill Types</option>
+        <option value="Technical" {% if skill_type == 'Technical' %}selected{% endif %}>Technical</option>
+        <option value="Soft Skill" {% if skill_type == 'Soft Skill' %}selected{% endif %}>Soft Skill</option>
+        <option value="Professional" {% if skill_type == 'Professional' %}selected{% endif %}>Professional</option>
+      </select>
+      
+      <!-- Sub-skill Search: Retain entered value -->
+      <input type="text" name="sub_skill" placeholder="Search Sub-skill" value="{{ sub_skill or '' }}">
+      
+      <!-- NEW: Author Search Input - Retain entered value -->
+      <input type="text" name="author_name" placeholder="Search Author" value="{{ author_name or '' }}">
+      
+      <button type="submit">Filter</button>
+    </form>
+
+    <ul class="pdf-grid">
+      {% for material in materials %}
+      <li>
+        <a href="{{ url_for('static', filename='Uploads/' + material['filename']) }}" target="_blank" class="pdf-card">
+          <i class="fas fa-file-pdf"></i>
+          <strong>{{ material['title'] }}</strong>
+          
+          <!-- NEW: Display Author Name if it exists -->
+          {% if material['author'] %}
+          <span class="author-name">By: {{ material['author'] }}</span>
+          {% endif %}
+
+          <span class="sub-skill-name">{{ material['sub_skill'] }}</span>
+        </a>
+      </li>
+      {% else %}
+      <li class="no-results">No PDFs found matching your criteria.</li>
+      {% endfor %}
+    </ul>
+    <a href="{{ url_for('dashboard') }}" class="nav-button secondary">🎥 View dashboard</a>
+  </div>
+</body>
+</html>

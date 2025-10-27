@@ -1,0 +1,11 @@
+h2>🎓 Generated Certificates</h2>
+<ul>
+    {% for cert in certificates %}
+        <li>
+            {{ cert.email }} - {{ cert.skill }}:
+            <a href="{{ url_for('static', filename='generated_certificates/' ~ cert.filename) }}" target="_blank">Download</a>
+        </li>
+    {% else %}
+        <li>No certificates generated yet.</li>
+    {% endfor %}
+</ul>  

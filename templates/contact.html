@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Skill Development Tracker</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Core styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #151616e0;
+            background-image: url('static/top-view-blue-monday-concept-composition-with-telephone_23-2149139104.avif');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Navigation Bar (from homepage) */
+        .navbar {
+            background: linear-gradient(to right, #1e3a8a, #3b82f6);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .navbar .logo {
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .navbar .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .navbar .nav-links li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .nav-links li a:hover {
+            color: #facc15;
+        }
+
+        .navbar .nav-links li a.nav-button {
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .navbar .nav-links li a.nav-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            color: #fff;
+        }
+
+        .navbar .nav-links li a.nav-button.secondary {
+            background: linear-gradient(to right, #10b981, #34d399);
+        }
+
+        /* Modal Styles (from homepage) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: fadeInUp 0.3s ease-in;
+        }
+
+        .modal-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .modal-content input {
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: #f9fafb;
+        }
+
+        .modal-content input:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
+        }
+
+        .modal-content button {
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+            color: #fff;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .modal-content button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #555;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1516321318427-f06f85e84b91?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            padding: 8rem 2rem;
+            text-align: center;
+            margin-top: 60px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #000; /* Retained from original contact page */
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            max-width: 1300px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 1s ease-in;
+        }
+
+        .contact-section h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .contact-item i {
+            font-size: 1.8rem;
+            color: #3b82f6;
+        }
+
+        .contact-item a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        .social-media {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .social-media h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .social-media a {
+            color: #3b82f6;
+            font-size: 1.8rem;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-media a:hover {
+            color: #facc15;
+        }
+
+        /* Bottom Navigation */
+        .bottom {
+            margin: 2rem auto;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 2rem;
+            align-items: flex-start;
+            font-size: 0.95rem;
+            max-width: 1300px;
+        }
+
+        .bottom .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .bottom .nav-links li a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .bottom .nav-links li a:hover {
+            color: #3b82f6;
+        }
+
+        .bottom p {
+            max-width: 300px;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(to right, #1e3a8a, #3b82f6);
+            color: #fff;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        .footer a {
+            color: #facc15;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                color: #f9fafb;
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .contact-section {
+                padding: 1rem;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+
+           .bottom {
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 2rem;
+            align-items: flex-start;
+            font-size: 0.95rem;
+        }
+
+        .bottom .nav-links {
+            list-style: none;
+            padding: pppp0;
+            margin:0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .bottom .nav-links li a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .bottom .nav-links li a:hover {
+            color: #3b82f6;
+        }
+
+        .bottom p {
+            max-width: 300px;
+            line-height: 1.6;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar (from homepage) -->
+    <nav class="navbar">
+    <div class="container">
+      <a href="{{url_for('home_page')}}" class="logo">Skill Development Tracker</a>
+      <ul class="nav-links">
+        <li><a href="{{url_for('home_page')}}">Home</a></li>
+        <li><a href="{{url_for('skills_page')}}">Skills</a></li>
+        <li><a href="{{ url_for('admin.admin') }}">Admin</a></li>
+        <li><a href="{{ url_for('set_goal') }}">Set Goal</a></li>
+      {% if session.email %}
+  <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+  <li><a href="{{ url_for('logout') }}">Logout</a></li>
+{% else %}
+  <li><a href="{{ url_for('login') }}">Login</a></li>
+  <li><a href="{{ url_for('login') }}">Dashboard</a></li>
+{% endif %}
+
+      </ul>
+    </div>
+  </nav>
+    <!-- Set Goal Modal (from homepage) -->
+    <div id="setGoalModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('setGoalModal')">×</span>
+            <h3>Access Set Goal</h3>
+            <form method="get" action="{{url_for('set_goal')}}">
+                <input type="email" name="email" placeholder="Enter your email to set a goal" required>
+                <button type="submit">Proceed</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard Modal (from homepage) -->
+    <div id="dashboardModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('dashboardModal')">×</span>
+            <h3>Access Dashboard</h3>
+            <form method="get" action="{{url_for('dashboard')}}">
+                <input type="email" name="email" placeholder="Enter your email to view your dashboard" required>
+                <button type="submit">Proceed</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 style="color:white ;">Contact Us</h1>
+        <p>We're here to help you with your skill development journey. Reach out to us anytime!</p>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <h2>Get in Touch</h2>
+        <div class="contact-info">
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <p><a href="rathika@skills-tracker.com">rathika@skills-tracker.com</a></p>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <p>+6381538566</p>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <p>12 k.k nagar, karaikudi, sivagangai</p>
+            </div>
+        </div>
+        <div class="social-media">
+            <h3>Follow Us</h3>
+            
+            <a href="https://facebook.com/skill_development_traker"><i class="fab fa-facebook"></i></a>
+            <a href="https://instagram.com/skill_development_traker"><i class="fab fa-instagram"></i></a>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom">
+        <ul class="nav-links">
+            <li><a href="{{url_for('home_page')}}">Home</a></li>
+            <li><a href="{{url_for('about_page')}}">About Us</a></li>
+            <li><a href="{{url_for('learn_page')}}">FAQ</a></li>
+            <li><a href="{{url_for('contact_page')}}">Contact Us</a></li>
+            <li><a href="{{url_for('login')}}">Login</a></li>
+        </ul>
+        <p>
+            <strong>Business Hours</strong><br>
+            Our support is available<br>
+            Email: rathika@skills-tracker.com<br><br>
+            Monday–Friday: Open<br>
+            Saturday: Closed<br>
+            Sunday: Closed
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 Skill Development Tracker. All rights reserved.</p>
+        <a href="{{url_for('terms_page')}}">Terms & Conditions</a>
+        <a href="{{url_for('privacy_page')}}">Privacy & Policy</a>
+    </footer>
+
+    <!-- JavaScript for Modal (from homepage) -->
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
